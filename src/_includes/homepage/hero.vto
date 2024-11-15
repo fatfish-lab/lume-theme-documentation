@@ -1,0 +1,27 @@
+<section id="hero">
+  <div class="logo"></div>
+  <header>
+    <h1 class="title">Documentation</h1>
+    <span class="subtitle">Explore our guides and learn how Aquarium works. Ready to dive in?</span>
+  </header>
+  <div class="quick-start-container">
+    {{ comp.arrow({"content": "Quick start", "top": "-112px"}) }}
+    <div class="fancy-border-glow">
+      <div class="quick-start">
+        <span class="title">
+          <span class="aq-icon">flag</span>
+          <h3>Getting started</h3>
+        </span>
+        <a href="{{ '/web/quickstart/manager' |> url }}">
+          {{ comp.button({ content: "I'm a manager", icon: "groups", fullwidth: true}) }}
+        </a>
+        <a href="{{ '/web/quickstart/developer' |> url }}">
+          {{ comp.button({ content: "I'm a developer", icon: "code", fullwidth: true}) }}
+        </a>
+        <a href="{{ '/web/quickstart/artist' |> url }}">
+          {{ comp.button({ content: "I'm an artist", icon: "palette", fullwidth: true}) }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

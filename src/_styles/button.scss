@@ -1,0 +1,80 @@
+button.btn {
+  --y: clamp(0, (0.36 / y - 1) * infinity, 1);
+  --bg-color: var(--blue-50);
+  --contrast-color: color(from var(--bg-color) xyz-d65 var(--y) var(--y) var(--y));
+  --border-color: color-mix(in srgb, var(--bg-color), var(--bg-00) 33%);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 1;
+  text-align: center;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  border-radius: 5px;
+  padding: 4px 16px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.02s ease-in;
+  gap: 0 4px;
+  background-color: var(--bg-color);
+  border-color: var(--border-color);
+  color: var(--contrast-color);
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus .btn-hover,
+  &:hover .btn-hover {
+    display: block;
+  }
+
+  &:active .btn-hover {
+    display: block;
+    background: rgba(41, 41, 41, 0.274);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.fullwidth {
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  &.autowidth {
+    width: 100%;
+  }
+
+  .aq-icon {
+    opacity: 0.8;
+  }
+
+  .btn-content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+  }
+
+  .btn-hover {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(207, 207, 207, 0.2);
+  }
+}

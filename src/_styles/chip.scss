@@ -1,0 +1,55 @@
+$colors: (
+'gray',
+'red',
+'pink',
+'grape',
+'violet',
+'indigo',
+'blue',
+'cyan',
+'teal',
+'green',
+'lime',
+'yellow',
+'orange'
+);
+
+.aq-chip {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  gap: 4px;
+  padding: 0 0.5rem;
+  flex-shrink: 0;
+  border-radius: 100%;
+  height: var(--small);
+  min-width: var(--small);
+  border-radius: var(--small);
+  font-size: 0.8em;
+  --color: var(--blue-50);
+  background-color: color-mix(in oklab, var(--color), var(--bg-00) 90%);
+  color: var(--color);
+
+  @each $color in $colors {
+    &.#{$color} {
+      --color: var(--#{$color}-50);
+    }
+  }
+
+  &.big {
+    height: var(--big);
+    min-width: var(--big);
+    border-radius: var(--big);
+    padding: 0 12px;
+    font-size: 1.2em;
+  }
+
+  &.mini {
+    height: var(--mini);
+    min-width: var(--mini);
+    border-radius: var(--mini);
+    font-size: 0.9em;
+  }
+}

@@ -1,0 +1,141 @@
+/*
+Copyright 2024 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License") !default;
+you may not use this file except in compliance with the License.
+
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@import "theme";
+@import "mixins";
+
+// Prism
+pre {
+    &[class*="language-"] {
+        > code {
+            background: transparent;
+
+            @include prism-theme-punctuation($code-text-dark);
+            @include prism-theme-comment($code-text-dark);
+            @include prism-theme-selector($code-selector-dark);
+            @include prism-theme-variable($code-variable-dark);
+            @include prism-theme-function($code-function-dark);
+            @include prism-theme-number($code-number-dark);
+
+
+            &,
+            .token {
+                text-shadow: none;
+            }
+
+            &.language-css,
+            &.style {
+                .token {
+                    &.string {
+                        background: none;
+                    }
+                }
+            }
+
+            .token {
+                background: none;
+                border-radius: 0;
+                display: inline;
+                font-weight: normal;
+                margin: 0;
+                padding: 0;
+
+                &.namespace {
+                    opacity: 0.7;
+                }
+
+                &.operator,
+                &.entity,
+                &.url {
+                    background: none;
+                }
+
+                &.important,
+                &.bold {
+                    font-weight: bold;
+                }
+
+                &.italic {
+                    font-style: italic;
+                }
+            }
+        }
+    }
+}
+
+// Prism Toolbar
+.code-toolbar {
+    margin: 1em 0;
+    position: relative;
+
+    > pre {
+        margin: 0;
+    }
+
+    > .toolbar {
+        position: absolute;
+        right: 1.5em;
+        top: -2.4em;
+        z-index: 3;
+
+        > .toolbar-item {
+            display: inline-block;
+
+            > a {
+                text-decoration: none;
+            }
+
+            > button {
+                border: 0;
+                font: inherit;
+                line-height: normal;
+                overflow: visible;
+                user-select: none;
+            }
+
+            > a,
+            > button {
+                background: $neutral3;
+                border-radius: 0.625em;
+                color: $white;
+                cursor: pointer;
+                line-height: 1;
+                padding: 0.375em 0.5em;
+                transition: color 0.25s, background 0.25s;
+
+                span {
+                    color: $white;
+                }
+
+                &:hover,
+                &:focus {
+                    background: $neutral2;
+                    color: $white;
+
+                    span {
+                        color: $white;
+                    }
+                }
+            }
+
+            > a,
+            > button,
+            > span {
+                font-size: 0.9em;
+            }
+        }
+    }
+}

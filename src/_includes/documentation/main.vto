@@ -1,0 +1,28 @@
+{{ import { levels, capitalize, filename, getAdjacentPages } from '../utils.vto'}}
+{{ set adjacent = getAdjacentPages(url) }}
+
+<main id="main" class="{{ if notoc != true }}with-toc{{ /if }}">
+  {{ include "../sidebar.vto" }}
+  <div id="content"
+    {{ if pagefind && pagefind.topic }}
+      data-pagefind-filter="{{levels[0]}}:{{capitalize(pagefind.topic)}}"
+      data-pagefind-meta="{{pagefind.topic}}:{{filename}}"
+    {{ /if }}>
+    {{ content }}
+    <div class="toolbox" data-pagefind-ignore>
+      {{ set contribution = new URL(`${repository.author}/${repository.name}/edit/${repository.branch}/src/${page.src.path.slice(1)}${page.src.ext}`, repository.host).toString() }}
+      <a {{`href=${contribution}`}} target="_blank" rel="noreferrer" class="contribute">
+        {{ comp.button({ content: 'Make a contribution', icon: 'edit_square', color: 'bg-30' }) }}
+      </a>
+      {{ set repositoryURL = new URL(`${repository.author}/${repository.name}`, repository.host).toString() }}
+      {{ set issue = new URL(`${repository.author}/${repository.name}/issues/new?title=Idea+&body=%0A%0A%0A%0A>[!NOTE]%0A>Related to file: ${page.src.path}${page.src.ext}`, repository.host).toString() }}
+      <a {{`href=${issue}`}} target="_blank" rel="noreferrer" class="contribute">
+        {{ comp.button({ content: 'Share an idea', icon: 'emoji_objects', color: 'bg-30' }) }}
+      </a>
+    </div>
+    {{ comp.adjacent(adjacent) }}
+  </div>
+  {{ if notoc != true && toc && toc.length }}
+    {{ include "./toc.vto" }}
+  {{ /if }}
+</main>

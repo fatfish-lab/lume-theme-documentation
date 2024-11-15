@@ -1,0 +1,18 @@
+{{ if next || prev }}
+  <div class="adjacent" data-pagefind-ignore>
+    {{ if prev }}
+      <a class="prev"  href="{{ prev.data.url |> url }}">
+        <span class="aq-icon">arrow_back</span>
+        <small>Previous</small>
+        <span class="title">{{ prev.data.title }}</span>
+      </a>
+    {{ /if }}
+    {{ if next }}
+      <a class="next" href="{{ next.data.url|> url }}">
+        <span class="title">{{ next.data.title }}</span>
+        <small>Next</small>
+        <span class="aq-icon">arrow_forward</span>
+      </a>
+    {{ /if }}
+  </div>
+{{ /if }}

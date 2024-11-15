@@ -1,0 +1,24 @@
+<header id="header" class="{{ if it.pageName }}{{ it.pageName }}{{ /if }}" data-pagefind-ignore>
+  <a href="{{ '/' |> url }}" class="logo">
+    <img src="/_medias/logo_blue.png" alt="Aquarium logo">
+  </a>
+  {{ if nosearch !== true }}
+    {{ comp search }}{{/comp}}
+  {{ else }}
+    <div id="no-search"></div>
+  {{ /if }}
+
+  <a id="contact-icon" href="{{ '/contact' |> url }}">
+    <div class="aq-icon clickable outline">contact_support</div>
+  </a>
+  <div id="theme" class="aq-icon clickable">
+    light_mode
+  </div>
+  {{# <div class="languages">
+    {{ for alt of alternates }}
+      <a href="{{ alt.url }}" {{ if alt.lang == lang }}aria-current="page" class="active"{{ /if }}>
+        {{ i8n[alt.lang].emoji }}
+      </a>
+    {{ /for }}
+  </div> #}}
+</header>

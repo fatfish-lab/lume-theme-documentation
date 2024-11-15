@@ -1,0 +1,24 @@
+{{ import { capitalize } from "./utils.vto" }}
+
+<li {{ if item.data != null && item.data.url == url }}class="active"{{ /if }}>
+  {{ if item.children && item.children.length > 0 }}
+    <details {{if url.split('/')[level] == item.slug}}open{{/if}}>
+      {{ if item.data }}
+        {{ comp.summary({...item.data, active: url.startsWith(item.data.url)}) }}
+      {{ else }}
+        {{ comp.summary({slug: capitalize(item.slug), active: url.startsWith(item.slug)}) }}
+      {{ /if }}
+      <ol>
+        {{ for child of item.children.sort((a,b) => (a.data?.nav_order || 0) - (b.data?.nav_order || 0)) }}
+          {{ include "./sidebar_item.vto" { item: child, level: level + 1 } }}
+        {{ /for }}
+      </ol>
+    </details>
+  {{ else }}
+    {{ if item.data }}
+      {{ comp.shortcut({...item.data, active: url.startsWith(item.data.url)}) }}
+    {{ else }}
+      {{ comp.shortcut({...item, active: url.startsWith(item.data.url)}) }}
+    {{ /if }}
+  {{ /if }}
+</li>

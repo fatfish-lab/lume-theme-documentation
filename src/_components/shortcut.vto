@@ -1,0 +1,19 @@
+{{ if url != null }}
+<a href="{{ url|> url }}" class="shortcut {{ if active }}active{{ /if }}">
+  {{ if chip }}
+    <span class="aq-chip {{chip}}">{{chip}}</span>
+  {{ else if icon }}
+    <span class="aq-icon">{{icon}}</span>
+  {{ /if }}
+  {{ topic || title }}
+</a>
+{{ else }}
+<span class="shortcut {{ if active }}active{{ /if }}">
+  {{ if icon }}
+    <span class="aq-icon">{{icon}}</span>
+  {{ /if }}
+  {{ set name = topic || title || slug || basename }}
+  {{ set capitalized = name.charAt(0).toUpperCase() + name.slice(1)}}
+  {{ capitalized }}
+</span>
+{{ /if }}

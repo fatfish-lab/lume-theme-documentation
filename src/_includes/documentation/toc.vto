@@ -1,0 +1,37 @@
+{{ if toc }}
+<nav class="toc">
+  <h4 class="title">On this page</h4>
+  <ol>
+    {{ for item of toc }}
+    <li>
+      <a href="#{{ item.slug }}">{{ item.text }}</a>
+
+      {{ if item.children.length }}
+      <ol>
+        {{ for child of item.children }}
+        <li {{ if child.children.length }}class="line"{{ /if }}>
+          {{ if child.children.length }}
+            <details id="{{child.slug}}">
+              <summary>
+                <a href="#{{ child.slug }}">{{ child.text }}</a>
+              </summary>
+              <ul>
+                {{ for sub of child.children }}
+                <li>
+                  <a href="#{{ sub.slug }}">{{ sub.text }}</a>
+                </li>
+                {{ /for }}
+              </ul>
+            </details>
+          {{ else }}
+            <a href="#{{ child.slug }}">{{ child.text }}</a>
+          {{ /if }}
+        </li>
+        {{ /for }}
+      </ol>
+      {{ /if }}
+    </li>
+    {{ /for }}
+  </ol>
+</nav>
+{{ /if }}

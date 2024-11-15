@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{{ set theme = "light" }}
+
+<html {{`theme=${theme}`}}>
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/_medias/favicon.png" />
+  <title>Aquarium docs {{ if title }}- {{ title }}{{ /if }}</title>
+
+  <link rel="stylesheet" href="{{"/index.css" |> url}}">
+
+  <link rel="preload" href="{{"/index.css" |> url}}" as="style">
+
+  <script src="/_js/theme.js"></script>
+  <script src="/_js/search.js"></script>
+  <script src="/_js/toc.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <script src="/_js/mermaid.js"></script>
+  <script>
+    const html = document.documentElement
+    const theme = localStorage.getItem('preferredTheme')
+    html.setAttribute('theme', theme)
+  </script>
+
+</head>
+<body>
+  {{ content }}
+</body>
+</html>

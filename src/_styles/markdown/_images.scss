@@ -1,0 +1,70 @@
+/*
+Copyright 2023 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License") !default;
+you may not use this file except in compliance with the License.
+
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@import "theme";
+
+// Images
+img,
+figure {
+    // border: solid 2px var(--bg-30);
+    // border-radius: 16px;
+    display: block;
+    margin: 1rem auto;
+    max-width: 100%;
+}
+
+img {
+    &[align="left"] {
+        float: unset;
+        margin-left: 0;
+    }
+
+    &[align="right"] {
+        float: unset;
+        margin-right: 0;
+    }
+}
+
+// Figures
+figure {
+    overflow: hidden;
+    padding: 1rem;
+
+    &:has(img[align="left"]) {
+        margin-left: 0;
+        width: fit-content;
+    }
+
+    &:has(img[align="right"]) {
+        margin-right: 0;
+        width: fit-content;
+    }
+
+    img {
+        border: none;
+        border-radius: 0;
+        margin: 0 auto;
+    }
+
+    figcaption {
+        border-top: solid 1px var(--bg-30);
+        background: $gray9;
+        font-size: 0.9em;
+        text-align: center;
+        padding: 1rem;
+        margin: 1rem -1rem -1rem;
+    }
+}

@@ -1,0 +1,92 @@
+{{ import { capitalize, filename, levels, getAdjacentPages } from '../utils.vto'}}
+{{ set adjacent = getAdjacentPages(url) }}
+{{ set hasAuth = (bruno.auth && bruno.auth != 'none') || (bruno.http.auth && bruno.http.auth != 'none') }}
+
+<main id="main" class="bruno with-sidebar">
+  {{ include "../sidebar.vto" }}
+  <div id="content"
+    {{ if pagefind && pagefind.topic }}
+      data-pagefind-filter="{{levels[0]}}:{{capitalize(pagefind.topic)}}"
+      data-pagefind-meta="{{pagefind.topic}}:{{filename}}"
+    {{ /if }}>
+    <div class="title">
+      {{ if bruno && bruno.meta }}
+        <span data-pagefind-meta="method" class="aq-chip big {{bruno.http.method}}">{{bruno.http.method}}</span>
+        <h1>{{bruno.meta.name}}</h1>
+        {{ if hasAuth }}
+          <span class="aq-icon">lock</span>
+        {{ /if }}
+      {{ else }}
+        <h1>{{title}}</h1>
+      {{ /if }}
+    </div>
+    {{ if bruno.http && bruno.http.url }}
+      <code class="url" data-pagefind-meta="endpoint:{{levels[2] || levels[1]}}">
+        {{bruno.http.url}}
+      </code>
+    {{ /if }}
+
+    {{ content || 'No documentation' }}
+
+    {{ if hasAuth }}
+      <div class="auth">
+        <h3>Authentication</h3>
+        {{ if bruno.http && bruno.http.auth == "inherit" && bruno.collection }}
+          <span>Authentication inherited from the collection: <strong>{{capitalize(bruno.collection.auth.mode)}}</strong>.</span>
+        {{ else if bruno.auth && bruno.auth.mode }}
+          <span>Authentication is set on: <strong>{{capitalize(bruno.auth.mode)}}</strong></span>
+        {{ /if }}
+      </div>
+    {{ /if }}
+    {{ if bruno.params }}
+      <div class="params">
+        <h3>Parameters</h3>
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align:left">Name</th>
+              <th style="text-align:left">Type</th>
+              <th style="text-align:left">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ for param of bruno.params }}
+              <tr>
+                <td>{{param.name}}</td>
+                <td>{{param.type}}</td>
+                <td>{{param.value}}</td>
+              </tr>
+            {{ /for }}
+          </tbody>
+        </table>
+    {{ /if }}
+    {{ if bruno.http && bruno.http.body == 'json' && bruno.body }}
+      <div class="body">
+        <h3>Body</h3>
+        <pre class="language-json">
+          <code>{{bruno.body.json |> JSON.parse |> JSON.stringify(null, 2)}}</code>
+        </pre>
+      </div>
+    {{ /if }}
+    {{# {{ if bruno.http }}
+      <details>
+        <summary>Bruno request</summary>
+        <pre class="language-json">
+          <code>{{bruno |> JSON.stringify(null, 2)}}</code>
+        </pre>
+      </details>
+    {{ /if }} #}}
+    <div class="toolbox" data-pagefind-ignore>
+      {{ set contribution = new URL(`${repository.author}/${repository.name}/edit/${repository.branch}/src/${page.src.path.slice(1)}${page.src.ext}`, repository.host).toString() }}
+      <a {{`href=${contribution}`}} target="_blank" rel="noreferrer" class="contribute">
+        {{ comp.button({ content: 'Make a contribution', icon: 'edit_square', color: 'bg-30' }) }}
+      </a>
+      {{ set repositoryURL = new URL(`${repository.author}/${repository.name}`, repository.host).toString() }}
+      {{ set issue = new URL(`${repository.author}/${repository.name}/issues/new?title=Idea+&body=%0A%0A%0A%0A>[!NOTE]%0A>Related to file: ${page.src.path}${page.src.ext}`, repository.host).toString() }}
+      <a {{`href=${issue}`}} target="_blank" rel="noreferrer" class="contribute">
+        {{ comp.button({ content: 'Share an idea', icon: 'emoji_objects', color: 'bg-30' }) }}
+      </a>
+    </div>
+    {{ comp.adjacent(adjacent) }}
+  </div>
+</main>

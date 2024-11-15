@@ -1,0 +1,12 @@
+{{ comp index }}
+  {{ include "./header.vto" { nosearch: true } }}
+  <main id="main">
+    <div id="content" class="contact">
+      <h1>How can we help ?</h1>
+      {{ comp search }}
+        {{ comp.arrow({content: 'Search in the doc', top: '-112px', left: '75%'}) }}
+      {{ /comp }}
+      {{ content }}
+    </div>
+  </main>
+{{ /comp }}

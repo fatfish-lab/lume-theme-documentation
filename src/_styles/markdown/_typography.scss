@@ -1,0 +1,139 @@
+/*
+Copyright 2024 DigitalOcean
+
+Licensed under the Apache License, Version 2.0 (the "License") !default;
+you may not use this file except in compliance with the License.
+
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@import "theme";
+@import "mixins";
+
+$root-text-styles: true !default;
+
+// Text
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 1em 0;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    a {
+        background-size: 0 0;
+        color: inherit;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: $gray1;
+            background-size: 0 0;
+        }
+    }
+}
+
+p {
+    line-height: 1.5;
+
+    @include mq($phone) {
+        code {
+            word-break: break-all;
+        }
+    }
+}
+
+// Lists
+ol,
+ul {
+    list-style-type: disc;
+    margin-bottom: 1.7em;
+    padding-left: 2.5em;
+
+    @include mq($tablet) {
+        list-style-position: inside;
+        padding-left: 0;
+    }
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+// Links
+a {
+    // background: linear-gradient($blue2, $blue2) center bottom / 100% 1px no-repeat;
+    // border-bottom: none;
+    color: $blue2;
+    text-decoration: none;
+    // transition:
+    //     background 300ms ease-in-out,
+    //     color 300ms ease-in-out;
+
+    &:hover,
+    &:focus {
+        // background: linear-gradient($blue1, $blue1) center bottom / 100% 100% no-repeat;
+        // color: $white;
+
+        code {
+            background:
+                linear-gradient($blue2, $blue2) center calc(100% - 0.2em + 0.5px) / 100% 1px no-repeat,
+                linear-gradient(var(--bg-30), var(--bg-30)) center top / 100% 0% no-repeat;
+            color: $white;
+        }
+    }
+
+    code {
+        background:
+            linear-gradient($blue2, $blue2) center calc(100% - 0.2em + 0.5px) / 100% 1px no-repeat,
+            linear-gradient(var(--bg-30), var(--bg-30)) center top / 100% 100% no-repeat;
+        transition:
+            background 300ms ease-in-out,
+            color 300ms ease-in-out;
+    }
+}
+
+// Quotes
+blockquote {
+    border-left: 4px solid $gray7;
+    color: $gray5;
+    display: block;
+    font-size: 18px;
+    margin: 0 0 1.25em 1.25em;
+    padding: 0 0 0 1.5em;
+
+    a {
+        border-bottom: 1px dotted $gray5;
+        color: $gray5;
+
+        &:hover,
+        &:focus {
+            border-bottom-style: solid;
+        }
+    }
+}

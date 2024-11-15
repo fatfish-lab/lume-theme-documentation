@@ -1,0 +1,40 @@
+{{ export function capitalize (string) }}
+  {{string.charAt(0).toUpperCase() + string.slice(1)}}
+{{ /export }}
+
+{{ export function getAdjacentPages (url, lang = 'en') }}
+  {{>
+    const adjacent = {
+      prev: null,
+      next: null
+    }
+
+    const levels = url.split('/').slice(1, -1)
+    const parent = levels.slice(0,-1).join('/')
+    const neighbors = nav.menu(parent, `lang=${lang}`, 'nav_order title').children
+    const page = nav.menu(url, `lang=${lang}`, 'nav_order title')
+
+    if (page) {
+      if (page.parent && page.parent.data) adjacent.prev = page.parent
+
+      if (page.children && page.children.length > 0) {
+        const childrenWithData = page.children.filter(i => i.data)
+        if (childrenWithData.length > 0) adjacent.next = childrenWithData[0]
+      }
+    }
+
+    if (neighbors) {
+      const neighborsWithData = neighbors.filter(i => i.data)
+      const index = neighborsWithData.findIndex(i => i.data.url === url)
+      if (index > 0) adjacent.prev = neighborsWithData[index - 1]
+      if (neighborsWithData.length > index + 1 && adjacent.next == null) adjacent.next = neighborsWithData[index + 1]
+    }
+
+    return adjacent
+  }}
+{{ /export }}
+
+{{ export levels = url.split('/').slice(1, -1)}}
+{{ export path = nav.breadcrumb(url).filter(item => item != null).map(item => item.slug) }}
+{{ export filePath = nav.breadcrumb(url).filter(item => item.data != null).map(item => item.data.url) }}
+{{ export filename = page.src.entry.name.replace(page.src.ext, '')}}

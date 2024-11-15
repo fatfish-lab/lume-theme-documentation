@@ -1,0 +1,77 @@
+$items: (
+  "Shot": (fill: var(--grape-50),
+    stroke: var(--grape-70)),
+  "Asset": (fill: var(--orange-50),
+    stroke: var(--orange-70)),
+  "Library": (fill: var(--orange-70),
+    stroke: var(--orange-50)),
+  "Task": (fill: var(--green-50),
+    stroke: var(--green-70)),
+  "Version": (fill: var(--yellow-30),
+    stroke: var(--yellow-50)),
+  "Media": (fill: var(--yellow-50),
+    stroke: var(--yellow-70)),
+  "Comment": (fill: var(--yellow-70),
+    stroke: var(--yellow-90)),
+  "Notification": (fill: var(--yellow-50),
+    stroke: var(--yellow-30)),
+  "Job": (fill: var(--grape-30),
+    stroke: var(--grape-50)),
+  "User": (fill: var(--blue-10),
+    stroke: var(--blue-30)),
+  "Usergroup": (fill: var(--blue-30),
+    stroke: var(--blue-50)),
+  "Organisation": (fill: #3f536e,
+    stroke: #2c3a4e),
+  "Sequence": (fill: var(--grape-30),
+    stroke: var(--grape-50)),
+  "Group": (fill: var(--blue-50),
+    stroke: var(--blue-70)),
+  "Project": (fill: var(--red-50),
+    stroke: var(--red-70)),
+  "Action": (fill: var(--pink-50),
+    stroke: var(--pink-70)),
+  "Milestone": (fill: var(--green-70),
+    stroke: var(--green-50)),
+  "Playlist": (fill: var(--cyan-50),
+    stroke: var(--cyan-70)),
+  "Room": (fill: var(--teal-50),
+    stroke: var(--teal-70)),
+  "Text": (fill: var(--cyan-30),
+    stroke: var(--cyan-50)),
+  "startpoint": (fill: var(--bg-20),
+    stroke: var(--red-50)),
+);
+
+.mermaid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg[id^="mermaid-"] {
+    @each $name, $styles in $items {
+      .#{$name},
+      [data-id^="#{$name}"] {
+        .label {
+          .nodeLabel {
+            --y: clamp(0, (0.36 / y - 1) * infinity, 1);
+            color: color(from map-get($styles, fill) xyz-d65 var(--y) var(--y) var(--y)) !important;
+          }
+        }
+
+        rect {
+          fill: map-get($styles, fill) !important;
+          stroke: map-get($styles, stroke) !important;
+          stroke-width: 4px !important;
+        }
+      }
+    }
+
+    text {
+      &.sequenceNumber {
+        fill: var(--bg-00) !important;
+      }
+    }
+  }
+
+}
