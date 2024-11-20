@@ -1,17 +1,4 @@
-@import "_styles/markdown/index.scss";
 @import "_styles/theme.scss";
-@import "_styles/vars.scss";
-@import "_styles/icons.scss";
-@import "_styles/chip.scss";
-@import "_styles/button.scss";
-@import "_styles/mermaid.scss";
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@0..1&family=Fredoka+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-
-:root {
-  --font-family: "Open Sans", sans-serif;
-  --title-font-family: "Raleway", sans-serif;
-  --brand-font-family: "Fredoka One", sans-serif;
-}
 
 :target {
   scroll-margin-top: 80px;
@@ -40,18 +27,9 @@ body {
   display: grid;
   grid-template-rows: var(--header-height) 1fr auto;
   grid-template-columns: 1fr;
-  // padding: 18px 42px;
-  // margin: 0;
-  font-family: var(--font-family);
-  font-optical-sizing: auto;
-  // gap: 38px;
-  overflow-y: auto;
-  overflow-x: clip;
   height: fit-content;
   min-height: 100%;
-  position: relative;
   --header-height: 58px;
-  overscroll-behavior-y: none;
 
   &::before {
     content: "";
@@ -82,19 +60,6 @@ body {
             color-mix(in srgb, var(--cyan-50), transparent 95%) 4.4%, rgba(0, 0, 0, 0) 100%);
     opacity: 0.3;
     pointer-events: none;
-  }
-
-  .clickable {
-    cursor: pointer;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--title-font-family);
   }
 
   #header {
@@ -168,185 +133,6 @@ body {
       a {
         &:not(.active):not(:hover) {
           filter: grayscale(100%);
-        }
-      }
-    }
-  }
-
-  #search-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    border: 1px solid var(--bg-10);
-    border-radius: 8px;
-    padding: 0 8px;
-    transition: border-color 0.3s ease-in-out, background-color 0.1s ease-in-out;
-    background-color: color-mix(in srgb, var(--bg-00), transparent 100%);
-
-    &:hover,
-    &:focus-within {
-      border-color: var(--blue-50);
-      background-color: color-mix(in srgb, var(--bg-00), transparent 30%);
-    }
-
-    .search-icon {
-      color: var(--text-20);
-      cursor: pointer;
-    }
-
-    #search {
-      width: 100%;
-
-      img {
-        margin: 0;
-      }
-
-      .pagefind-ui {
-        .pagefind-ui__form {
-          position: relative;
-
-          &::before {
-            content: none;
-          }
-
-          .pagefind-ui__search-input {
-            padding: 8px;
-            height: 100%;
-
-            &:focus {
-              outline: none;
-            }
-          }
-
-          .pagefind-ui__search-clear {
-            top: 0;
-            right: 0;
-            height: 100%;
-            padding: 8px;
-            color: var(--text-20);
-          }
-
-          .pagefind-ui__drawer {
-            --pagefind-ui-scale: 1;
-            background-color: var(--bg-00);
-            padding: 32px;
-            gap: 32px 58px;
-            border-radius: 8px;
-            position: absolute;
-            top: calc(var(--header-height) - 12px);
-            width: 100%;
-            border-color: var(--bg-10);
-            border-width: 0 1px 1px 1px;
-            border-style: solid;
-            max-height: 60vh;
-            overflow-y: auto;
-            box-shadow: 0 8px 16px 0 color-mix(in oklab, #000, transparent 65%);
-            container: drawer / inline-size;
-
-            .pagefind-ui__filter-panel {
-              margin: 0;
-              position: sticky;
-              top: 0;
-              height: fit-content;
-
-              .pagefind-ui__filter-block {
-                padding: 0;
-
-                &[open] {
-                  summary {
-                    border: unset;
-                    &::after {
-                      transform: rotate(-225deg);
-                    }
-                  }
-                }
-
-
-                summary {
-                  background-color: var(--bg-20);
-                  border-radius: 4px;
-                  padding: 8px;
-                  height: unset;
-
-                  &::after {
-                    right: 16px;
-                    border-color: var(--text-20);
-                  }
-                }
-
-
-                .pagefind-ui__filter-group {
-                  padding: 0;
-                  gap: 8px;
-
-                  .pagefind-ui__filter-value {
-                    label:hover {
-                      color: var(--blue-50);
-                    }
-                  }
-
-                  .pagefind-ui__filter-checkbox {
-                    background-color: var(--bg-20);
-                    border: solid 1px var(--bg-10);
-
-                    &:checked {
-                      background-color: var(--blue-50);
-                      border-color: var(--blue-90);
-                    }
-                  }
-                }
-              }
-            }
-
-            @container drawer (width < calc(400px + 32px + 58px + 260px)) {
-              .pagefind-ui__filter-panel {
-                position: relative;
-              }
-            }
-
-            .pagefind-ui__results-area {
-              display: flex;
-              flex-direction: column;
-              gap: 8px;
-              margin: 0;
-
-              .pagefind-ui__message {
-                padding: 0;
-              }
-
-              .pagefind-ui__results {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-
-                .pagefind-ui__result {
-                  padding: 0;
-
-                  mark {
-                    background-color: color-mix(in srgb, var(--yellow-50), transparent 85%);
-                    color: var(--text-00);
-                    border-radius: 4px;
-                    padding: 0.1em 0;
-                  }
-
-                  .pagefind-ui__result-thumb {
-                    border-radius: 8px;
-                    background-color: var(--bg-20);
-                  }
-
-                  .pagefind-ui__result-tag {
-                    color: var(--bg-00);
-                  }
-                }
-              }
-
-              .pagefind-ui__button {
-                background-color: color-mix(in srgb, var(--blue-50), transparent 90%);
-              }
-
-            }
-          }
         }
       }
     }
@@ -797,16 +583,6 @@ body {
           fill: var(--bg-10);
         }
       }
-    }
-  }
-}
-
-// Remove var --speed if user prefer no motion
-@media (prefers-reduced-motion: reduce) {
-  html {
-    &,
-    * {
-      transition: none !important;
     }
   }
 }

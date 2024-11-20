@@ -2,7 +2,7 @@
   {{string.charAt(0).toUpperCase() + string.slice(1)}}
 {{ /export }}
 
-{{ export function getAdjacentPages (url, lang = 'en') }}
+{{ export function getAdjacentPages (url, lang = 'en', sort = 'nav_order title') }}
   {{>
     const adjacent = {
       prev: null,
@@ -11,8 +11,8 @@
 
     const levels = url.split('/').slice(1, -1)
     const parent = levels.slice(0,-1).join('/')
-    const neighbors = nav.menu(parent, `lang=${lang}`, 'nav_order title').children
-    const page = nav.menu(url, `lang=${lang}`, 'nav_order title')
+    const neighbors = nav.menu(parent, `lang=${lang}`, sort)?.children
+    const page = nav.menu(url, `lang=${lang}`, sort)
 
     if (page) {
       if (page.parent && page.parent.data) adjacent.prev = page.parent

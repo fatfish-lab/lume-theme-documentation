@@ -4,18 +4,7 @@ import collectionBruToJson from "npm:@usebruno/lang@0.15.0/v2/src/collectionBruT
 import bruToJson from "npm:@usebruno/lang@0.15.0/v2/src/bruToJson.js"
 import envToJson from "npm:@usebruno/lang@0.15.0/v2/src/envToJson.js"
 
-const collectionBruFile = "src/api/rest/collection.bru"
-const collectionContent = await Deno.readTextFile(collectionBruFile)
-const collection = collectionBruToJson(collectionContent)
-
-const envs = []
-const envsDir = "src/api/rest/environments"
-for await (const dirEntry of Deno.readDir(envsDir)) {
-  if (dirEntry.isFile && dirEntry.name.endsWith(".bru")) {
-    const envContent = await Deno.readTextFile(`${envsDir}/${dirEntry.name}`)
-    envs.push(envToJson(envContent))
-  }
-}
+let collection: BrunoPage["collection"] = null
 
 interface BrunoPage extends RawData {
   bruno: null | {
@@ -24,6 +13,31 @@ interface BrunoPage extends RawData {
     collection: {
       docs: string
       auth: Record<string, string>
+    }
+  }
+}
+
+interface Options {
+  collection: string
+}
+
+export async function init(options: Options) {
+  const collectionBruFile = options.collection
+  const isCollectionBruFile = await Deno.stat(collectionBruFile).then(() => true).catch(() => false)
+
+  if (!isCollectionBruFile) {
+    throw new Error(`Bruno plugin disabled: ${collectionBruFile} not found`)
+  }
+
+  const collectionContent = await Deno.readTextFile(collectionBruFile)
+  collection = collectionBruToJson(collectionContent)
+
+  const envs = []
+  const envsDir = "src/api/rest/environments"
+  for await (const dirEntry of Deno.readDir(envsDir)) {
+    if (dirEntry.isFile && dirEntry.name.endsWith(".bru")) {
+      const envContent = await Deno.readTextFile(`${envsDir}/${dirEntry.name}`)
+      envs.push(envToJson(envContent))
     }
   }
 }

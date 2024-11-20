@@ -1,4 +1,4 @@
-import lume from "lume/mod.ts"
+import 'lume/types.ts'
 import { merge } from "lume/core/utils/object.ts"
 import type { SiteOptions } from "lume/core/site.ts";
 
@@ -15,7 +15,6 @@ import sitemap from "lume/plugins/sitemap.ts"
 import multilanguage from "lume/plugins/multilanguage.ts"
 import resolveUrls from "lume/plugins/resolve_urls.ts"
 import nav from "lume/plugins/nav.ts"
-import sass from "lume/plugins/sass.ts"
 import pagefind from "lume/plugins/pagefind.ts"
 import redirects from "lume/plugins/redirects.ts"
 import markdown from "lume/plugins/markdown.ts"
@@ -35,10 +34,10 @@ export interface Options {
   markdown?: any;
   toc?: any;
   pagefind?: any;
-  sass?: any;
   multilanguage?: any;
   server: Partial<SiteOptions["server"]>;
   watcher?: Partial<SiteOptions["watcher"]>;
+  bruno?: any;
 }
 
 const defaults: Options = {
@@ -80,14 +79,13 @@ const defaults: Options = {
       verbose: false,
     },
   },
-  sass: {
-    extensions: [".scss"],
-    includes: "_includes/styles",
-  },
   multilanguage: {
     languages: ["en", "fr"],
     defaultLanguage: "en",
   },
+  bruno: {
+    enabled: false,
+  }
 }
 
 /** Configure the site */
@@ -95,18 +93,17 @@ export default function (userOptions?: Partial<Options>) {
   const options = merge(defaults, userOptions)
 
   return (site: Lume.Site) => {
-    site.options.server = merge(site.options.server, options.server)
-    site.options.watcher = merge(site.options.watcher, options.watcher)
+    // site.options.server = merge(site.options.server, options.server)
+    // site.options.watcher = merge(site.options.watcher, options.watcher)
 
     site.use(resolveUrls())
     site.use(redirects())
     site.use(toc(options.toc))
     site.use(nav())
-    site.use(sass(options.sass))
     site.use(markdown(options.markdown))
     site.use(prism())
 
-    site.loadPages([".bru"], brunoLoader)
+    if (options.bruno.enabled == true) site.loadPages([".bru"], brunoLoader)
 
     site.use(multilanguage(options.multilanguage))
     site.use(sitemap())
@@ -114,9 +111,16 @@ export default function (userOptions?: Partial<Options>) {
 
     site.use(pagefind(options.pagefind))
 
-    site.copy("_medias")
-    site.copy("_styles")
-    site.copy("_js")
+    site.copy('_js')
+    const jsFiles = [
+      "_js/mermaid.js",
+      "_js/search.js",
+      "_js/theme.js",
+      "_js/toc.js"
+    ]
+    for (const file of jsFiles) {
+      site.remoteFile(file, import.meta.resolve(`./src/${file}`));
+    }
 
     site.mergeKey("id", "array")
     site.mergeKey("pagefind", "object")
