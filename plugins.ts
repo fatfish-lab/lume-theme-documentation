@@ -21,7 +21,7 @@ import markdown from "lume/plugins/markdown.ts"
 
 
 // Markdown plugins
-import toc from "https://deno.land/x/lume_markdown_plugins@v0.7.0/toc.ts"
+import toc from "https://deno.land/x/lume_markdown_plugins@v0.7.1/toc.ts"
 import digitalOceanMd from "npm:@digitalocean/do-markdownit"
 import prism from "lume/plugins/prism.ts"
 import "npm:prismjs@1.29.0/components/prism-json.js"
@@ -98,9 +98,9 @@ export default function (userOptions?: Partial<Options>) {
 
     site.use(resolveUrls())
     site.use(redirects())
-    site.use(toc(options.toc))
     site.use(nav())
     site.use(markdown(options.markdown))
+    site.use(toc(options.toc))
     site.use(prism())
 
     if (options.bruno.enabled == true) {
