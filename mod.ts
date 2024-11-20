@@ -1,14 +1,13 @@
 
 import "lume/types.ts"
 
-import theme from "./theme.ts"
-export type { Options } from "./plugins.ts"
-import plugins, { Options } from "./plugins.ts"
+import theme, { Options as ThemeOptions } from "./theme.ts"
+import plugins, { Options as PluginOptions } from "./plugins.ts"
 
-export default function (options: Partial<Options> = {}) {
+export default function (pluginOptions: Partial<PluginOptions> = {}, themeOptions: Partial<ThemeOptions> = {}) {
   return (site: Lume.Site) => {
-    site.use(plugins(options))
-    site.use(theme())
+    site.use(plugins(pluginOptions))
+    site.use(theme(themeOptions))
 
     const files = [
       "_includes/documentation/main.vto",

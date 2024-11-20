@@ -7,7 +7,7 @@ import type { SiteOptions } from "lume/core/site.ts";
 import mermaid from "./src/_plugins/markdown/mermaid.js"
 import card from "./src/_plugins/markdown/card.js"
 import alert from "./src/_plugins/markdown/alert.js"
-import brunoLoader from "./src/_plugins/bruno.ts"
+import brunoLoader, { init as initBruno } from "./src/_plugins/bruno.ts"
 
 // Plugins
 import robots from "lume/plugins/robots.ts"
@@ -103,7 +103,10 @@ export default function (userOptions?: Partial<Options>) {
     site.use(markdown(options.markdown))
     site.use(prism())
 
-    if (options.bruno.enabled == true) site.loadPages([".bru"], brunoLoader)
+    if (options.bruno.enabled == true) {
+      initBruno(options.bruno)
+      site.loadPages([".bru"], brunoLoader)
+    }
 
     site.use(multilanguage(options.multilanguage))
     site.use(sitemap())
