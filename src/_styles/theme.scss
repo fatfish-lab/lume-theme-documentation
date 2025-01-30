@@ -69,6 +69,11 @@ body {
     font-family: var(--title-font-family);
     text-wrap: balance;
     margin: 0;
+    margin-top: 2em;
+  }
+
+  p {
+    margin: 0.5em 0;
   }
 
   #search-trigger {
@@ -653,7 +658,7 @@ details {
   display: block;
   border-radius: 8px;
   color: var(--bg-00);
-  margin-bottom: 8px;
+  margin: 16px 0px;
   --bg: var(--gree-50);
   background-color: var(--bg);
 
