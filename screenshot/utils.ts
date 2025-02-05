@@ -44,6 +44,7 @@ interface Screenshot {
   name: string
   url: string
   click: string[]
+  waitForNetworkIdle: boolean
   scrollTo: string
   localStorage: Record<string, unknown>
   upload: {

@@ -82,18 +82,22 @@ for (const [index, screenshot] of screenshots.entries()) {
   if (screenshot.click) {
     for (const click of screenshot.click) {
       if (click.length == 0) {
-        log.debug(`Waiting for network idle`)
-        await session.page.waitForNetworkIdle().catch(() => {
-          log.warn(`Waiting for network idle failed. Please check screenshot ${screenshot.name}`)
-        })
+        if (screenshot.waitForNetworkIdle !== false) {
+          log.debug(`Waiting for network idle`)
+          await session.page.waitForNetworkIdle().catch(() => {
+            log.warn(`Waiting for network idle failed. Please check screenshot ${screenshot.name}`)
+          })
+        }
       } else {
         log.debug(`Click on ${click}`)
         await session.page.waitForSelector(click)
         await session.page.click(click)
-        log.debug(`* Clicked, waiting for network idle`)
-        await session.page.waitForNetworkIdle().catch(() => {
-          log.warn(`Waiting for network idle failed. Please check screenshot ${screenshot.name}`)
-        })
+        if (screenshot.waitForNetworkIdle !== false) {
+          log.debug(`* Clicked, waiting for network idle`)
+          await session.page.waitForNetworkIdle().catch(() => {
+            log.warn(`Waiting for network idle failed. Please check screenshot ${screenshot.name}`)
+          })
+        }
 
       }
     }
