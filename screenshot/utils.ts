@@ -40,7 +40,7 @@ export function parseSetCookies(headers: string[]) {
   })
 }
 
-interface Screenshot {
+export interface Screenshot {
   name: string
   url: string
   click: string[]
@@ -54,7 +54,7 @@ interface Screenshot {
   focus: {
     hover: boolean
     selector: string
-    type: "arrow"
+    type: "arrow" | "circle" | "overlay" | "mask"
     color: string
     content: string
     vignetting: boolean

@@ -1,6 +1,6 @@
 {
   "name": "@fatfish-lab/lume-theme-documentation",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "exports": "./mod.ts",
   "imports": {
     "@std/cli": "jsr:@std/cli@^1.0.0",
@@ -17,6 +17,7 @@
     "check": "deno check **/*.ts"
   },
   "compilerOptions": {
+    "useUnknownInCatchVariables": false,
     "types": [
       "lume/types.ts"
     ]

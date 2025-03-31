@@ -1,5 +1,5 @@
 import { Session } from "./page.ts"
-import { getAllScreenshots, log, Spinner } from "./utils.ts"
+import { Screenshot, getAllScreenshots, log, Spinner } from "./utils.ts"
 import vento from "https://deno.land/x/vento@v1.12.10/mod.ts"
 import { parseArgs } from "@std/cli/parse-args"
 import { walk } from "jsr:@std/fs/walk"
@@ -75,9 +75,16 @@ for (const [index, screenshot] of screenshots.entries()) {
     }, screenshot.localStorage)
   }
 
-  await session.page.goto(url, {
-    waitUntil: "networkidle0",
-  })
+  try {
+    await session.page.goto(url, {
+      waitUntil: "networkidle0",
+    })
+  } catch (error) {
+    if (error.name !== "TimeoutError") {
+      log.error(`Error while loading page ${url}: ${error}`)
+      continue
+    }
+  }
 
   if (screenshot.click) {
     for (const click of screenshot.click) {
@@ -114,14 +121,14 @@ for (const [index, screenshot] of screenshots.entries()) {
 
   if (screenshot.scrollTo) {
     await session.page.waitForSelector(screenshot.scrollTo)
-    await session.page.$eval(screenshot.scrollTo, (el) => {
+    await session.page.$eval(screenshot.scrollTo, (el: HTMLElement) => {
       el.scrollIntoView()
     })
   }
 
   if (screenshot.focus) {
     for (const focus of screenshot.focus) {
-      await session.page.$eval("body", (body) => {
+      await session.page.$eval("body", (body: HTMLElement) => {
         body.style.padding = "52px"
       })
 
@@ -147,7 +154,7 @@ for (const [index, screenshot] of screenshots.entries()) {
       }
 
       await session.page.evaluate(
-        (focus, innerHTML) => {
+        (focus: Screenshot['focus'][number], innerHTML: string) => {
           const elementToFocus = document.querySelector(focus.selector)
           if (!elementToFocus) return
 
