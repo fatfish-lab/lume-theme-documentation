@@ -1,4 +1,4 @@
-import { Session } from "./page.ts"
+import { Session, MouseWheelOptions } from "./page.ts"
 import { Screenshot, getAllScreenshots, log, Spinner } from "./utils.ts"
 import vento from "https://deno.land/x/vento@v1.12.10/mod.ts"
 import { parseArgs } from "@std/cli/parse-args"
@@ -87,8 +87,16 @@ for (const [index, screenshot] of screenshots.entries()) {
   }
 
   if (screenshot.click) {
-    for (const click of screenshot.click) {
-      if (click.length == 0) {
+    for (const [index, click] of screenshot.click.entries()) {
+      log.info(`Clicking on ${click} (${index})`)
+      if (typeof click === "number") {
+        const previousClick = screenshot.click[index - 1]
+        if (previousClick != null) {
+          for (let i = 0; i < click; i++) {
+            await session.page.click(previousClick)
+          }
+        }
+      } else if (click.length == 0) {
         if (screenshot.waitForNetworkIdle !== false) {
           log.debug(`Waiting for network idle`)
           await session.page.waitForNetworkIdle().catch(() => {
@@ -124,6 +132,33 @@ for (const [index, screenshot] of screenshots.entries()) {
     await session.page.$eval(screenshot.scrollTo, (el: HTMLElement) => {
       el.scrollIntoView()
     })
+  }
+  if (screenshot.wheel) {
+    if (screenshot.wheel.selector) {
+      log.info(`Scrolling with wheel ${screenshot.wheel.selector}`)
+      const element = await session.page.$(screenshot.wheel.selector)
+
+      if (element != null) {
+        const boundingBox = await element.boundingBox()
+        if (boundingBox == null) {
+          log.error(`Element ${screenshot.wheel.selector} not found for wheel bounding box`)
+          continue
+        }
+        await session.page.mouse.move(
+          boundingBox.x + boundingBox.width / 2,
+          boundingBox.y + boundingBox.height / 2,
+        )
+      } else {
+        log.error(`Element ${screenshot.wheel.selector} not found for wheel`)
+        continue
+      }
+    }
+
+    log.info(`Scrolling with wheel ${screenshot.wheel.deltaX} ${screenshot.wheel.deltaY}`)
+    const wheelOptions = {} as MouseWheelOptions
+    if (screenshot.wheel.deltaX != null) wheelOptions.deltaX = screenshot.wheel.deltaX
+    if (screenshot.wheel.deltaY != null) wheelOptions.deltaY = screenshot.wheel.deltaY
+    await session.page.mouse.wheel(wheelOptions)
   }
 
   if (screenshot.focus) {

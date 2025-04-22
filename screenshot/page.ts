@@ -3,6 +3,7 @@ import "@std/dotenv/load"
 import Aquarium from "https://raw.githubusercontent.com/fatfish-lab/aquarium-ts-api/main/src/index.ts"
 import puppeteer from "npm:puppeteer@23.3.0"
 import type { Browser, Page } from "npm:puppeteer@23.3.0"
+export type { MouseWheelOptions } from "npm:puppeteer@23.3.0"
 
 import { parseSetCookies } from "./utils.ts"
 

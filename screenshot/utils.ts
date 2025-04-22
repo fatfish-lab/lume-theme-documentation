@@ -1,5 +1,6 @@
-export * as log from "https://deno.land/std@0.218.2/log/mod.ts"
-export { Spinner } from "jsr:@std/cli@1.0.5"
+export * as log from "jsr:@std/log@^0.224.14"
+export { Spinner } from "jsr:@std/cli@1.0.16/unstable-spinner"
+
 
 export function parseSetCookies(headers: string[]) {
   return headers.map((header: string) => {
@@ -46,6 +47,11 @@ export interface Screenshot {
   click: string[]
   waitForNetworkIdle: boolean
   scrollTo: string
+  wheel: {
+    selector: string
+    deltaX: number
+    deltaY: number
+  },
   localStorage: Record<string, unknown>
   upload: {
     selector: string
