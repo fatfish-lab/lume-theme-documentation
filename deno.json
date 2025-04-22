@@ -1,6 +1,6 @@
 {
   "name": "@fatfish-lab/lume-theme-documentation",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "exports": "./mod.ts",
   "imports": {
     "@std/cli": "jsr:@std/cli@^1.0.0",
